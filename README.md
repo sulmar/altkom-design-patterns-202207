@@ -8,6 +8,7 @@
 ## Structurals Patterns
 ### Adapter Pattern
 ### Facade Pattern
+### Bridge Pattern
 ### Decorator Pattern
 ### Flyweight Pattern
 ### Proxy Pattern
