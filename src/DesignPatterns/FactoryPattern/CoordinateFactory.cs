@@ -1,24 +1,16 @@
-﻿using System;
+﻿using FactoryPattern.Models;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
-namespace FactoryMethodTemplate
+namespace FactoryPattern
 {
-    public class Coordinate
+    public class CoordinateFactory
     {
-		// Długość geograficzna	
-		public double Longitude { get; }
-
-		// Szerokość geograficzna
-		public double Latitude { get; }
-
-		protected Coordinate(double lng, double lat)
-		{
-			this.Longitude = lng;
-			this.Latitude = lat;
-		}
-
-        // Metoda wytwórcza (fabrykująca)
         public static Coordinate NewFromWkt(string wkt)
         {
             const string pattern = @"POINT \((\d*)\s(\d*)\)";
@@ -40,9 +32,6 @@ namespace FactoryMethodTemplate
             }
         }
 
-        // Problem - nie może być kilku konstruktorów, które przyjmują taki sam typ
-
-        // Metoda wytwórcza (fabrykująca)
         public static Coordinate NewFromGeoJson(string geojson)
         {
             const string pattern = @"\[(\d*), (\d*)\]";
@@ -65,9 +54,5 @@ namespace FactoryMethodTemplate
                 throw new FormatException();
             }
         }
-
-
-
-
     }
 }

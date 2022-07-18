@@ -10,7 +10,7 @@ namespace AbstractFactoryPattern
         {
             Console.WriteLine("Hello Factory Method Pattern!");
 
-            VisitCalculateAmountTest();
+            // VisitCalculateAmountTest();
 
             PaymentTest();
         }
@@ -27,45 +27,23 @@ namespace AbstractFactoryPattern
 
                 Console.Write("Wybierz rodzaj płatności: (G)otówka (K)karta płatnicza (P)rzelew: ");
 
-                var paymentType = Enum.Parse<PaymentType>(Console.ReadLine());
+                string input = Console.ReadLine();
+
+                PaymentType paymentType = PaymentTypeFactory.Create(input);
 
                 Payment payment = new Payment(paymentType, totalAmount);
+                IPaymentViewFactory paymentViewFactory = new ConsolePaymentViewFactory();
 
-                if (payment.PaymentType == PaymentType.Cash)
-                {
-                    CashPaymentView cashPaymentView = new CashPaymentView();
-                    cashPaymentView.Show(payment);
-                }
-                else
-                if (payment.PaymentType == PaymentType.CreditCard)
-                {
-                    CreditCardPaymentView creditCardView = new CreditCardPaymentView();
-                    creditCardView.Show(payment);
-                }
-                else
-                if (payment.PaymentType == PaymentType.BankTransfer)
-                {
-                    BankTransferPaymentView bankTransferPaymentView = new BankTransferPaymentView();
-                    bankTransferPaymentView.Show(payment);
-                }
+                PaymentView paymentView = paymentViewFactory.Create(paymentType);
+                paymentView.Show(payment);
 
-                string icon = GetIcon(payment);
+                string icon = IconFactory.Create(payment.PaymentType);
                 Console.WriteLine(icon);                
             }
 
         }
 
-        private static string GetIcon(Payment payment)
-        {
-            switch (payment.PaymentType)
-            {
-                case PaymentType.Cash: return "[100]"; 
-                case PaymentType.CreditCard: return "[abc]"; 
-                case PaymentType.BankTransfer: return "[-->]";
-
-                default: return string.Empty;
-            }
-        }
+        
 
         private static void VisitCalculateAmountTest()
         {

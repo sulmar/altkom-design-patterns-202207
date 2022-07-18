@@ -24,7 +24,7 @@ namespace AbstractFactoryPattern
     }
 
     public enum PaymentType
-    {
+    {        
         Cash,
         CreditCard,
         BankTransfer
