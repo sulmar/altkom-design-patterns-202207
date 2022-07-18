@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SingletonPattern
 {
-    public class LoadBalancer
+    public class LoadBalancer : LazySingleton<LoadBalancer>
     {
         private readonly List<Server> servers;
 
@@ -26,6 +26,26 @@ namespace SingletonPattern
 
         // Simple Load Balancer
         public Server NextServer => servers[random.Next(servers.Count)];
+
+        // private static object sync = new object();
+
+        //private static LoadBalancer _instance;
+        //public static LoadBalancer Instance
+        //{
+        //    get
+        //    {
+        //        lock (sync)                     // -> Monitor.Enter(sync);
+        //        {
+        //            if (_instance == null)
+        //            {
+        //                _instance = new LoadBalancer();
+        //            }
+        //        }                               // -> Monitor.Exit(sync);
+
+        //        return _instance;
+
+        //    }
+        //}
     }
 
     public class Server
