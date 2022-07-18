@@ -14,11 +14,11 @@ namespace BuilderPattern
         {
             Console.WriteLine("Hello Builder Pattern!");
 
-            //PhoneTest();
+            PhoneTest();
 
-            //SalesReportTest();
+            // SalesReportTest();
 
-            PersonTest();
+            // PersonTest();
         }
 
         private static void PersonTest()
@@ -39,24 +39,30 @@ namespace BuilderPattern
             FakeOrdersService ordersService = new FakeOrdersService();
             IEnumerable<Order> orders = ordersService.Get();
 
-            SalesReport salesReport = new SalesReport();
+            ISalesReportBuilder salesReportBuilder = new SalesReportBuilder(orders);
+            salesReportBuilder.AddHeader("Raport sprzedaży");
+            salesReportBuilder.AddGenderSection();
+            salesReportBuilder.AddProductSection();
+            
+            SalesReport salesReport = salesReportBuilder.Build();
 
-            salesReport.Title = "Raport sprzedaży";
-            salesReport.CreateDate = DateTime.Now;
-            salesReport.TotalSalesAmount = orders.Sum(s => s.Amount);
+            Console.WriteLine(salesReport);
 
-            salesReport.GenderDetails = orders
-                .GroupBy(o => o.Customer.Gender)
-                .Select(g => new GenderReportDetail(
-                            g.Key,
-                            g.Sum(x => x.Details.Sum(d => d.Quantity)),
-                            g.Sum(x => x.Details.Sum(d => d.LineTotal))));
+        }
 
-            salesReport.ProductDetails = orders
-                .SelectMany(o => o.Details)
-                .GroupBy(o => o.Product)
-                .Select(g => new ProductReportDetail(g.Key, g.Sum(p => p.Quantity), g.Sum(p => p.LineTotal)));
+        private static void FluentSalesReportTest()
+        {
+            FakeOrdersService ordersService = new FakeOrdersService();
+            IEnumerable<Order> orders = ordersService.Get();
 
+            FluentSalesReportBuilder salesReportBuilder = new FluentSalesReportBuilder(orders);
+
+            SalesReport salesReport = salesReportBuilder
+                .AddHeader("Raport sprzedaży")
+                .AddGenderSection()
+                .AddProductSection()                
+                .Build();
+            
             Console.WriteLine(salesReport);
 
         }
@@ -65,9 +71,18 @@ namespace BuilderPattern
         {
             Phone phone = new Phone();
             phone.Call("555999123", "555000321", ".NET Design Patterns");
+
+            // Phone
+            //  .Hangup()
+            //  .From("555999123")
+            //  .To("555000321")
+            //  .To("555000322")
+            //  .To("555000323")
+            //  .WithSubject(".NET Design Patterns")
+            //  .Call()
         }
 
-       
+
     }
 
     public class FakeOrdersService
