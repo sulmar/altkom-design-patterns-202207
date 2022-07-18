@@ -16,6 +16,8 @@ namespace BuilderPattern
 
             PhoneTest();
 
+            LazyFluentSalesReportBuilderTest();
+
             // SalesReportTest();
 
             // PersonTest();
@@ -32,6 +34,23 @@ namespace BuilderPattern
             person.AddSkill("tdd");
 
             Console.WriteLine(person);
+        }
+
+
+        private static void LazyFluentSalesReportBuilderTest()
+        {
+            FakeOrdersService ordersService = new FakeOrdersService();
+            IEnumerable<Order> orders = ordersService.Get();
+
+            IFluentSalesReportBuilder salesReportBuilder = new LazyFluentSalesReportBuilder(orders);
+            salesReportBuilder.AddHeader("Raport sprzedaży");
+            salesReportBuilder.AddGenderSection();
+            salesReportBuilder.AddProductSection();
+
+            SalesReport salesReport = salesReportBuilder.Build();
+
+            Console.WriteLine(salesReport);
+
         }
 
         private static void SalesReportTest()
@@ -80,6 +99,18 @@ namespace BuilderPattern
             //  .To("555000323")
             //  .WithSubject(".NET Design Patterns")
             //  .Call()
+        }
+
+        private static void FluentPhoneTest()
+        {
+            FluentPhone
+                .HangUp()
+                .From("555999123")
+                .To("555000321")                                
+                .To("555000322")
+                .To("555000323")
+                .WithSubject(".NET Design Patterns")
+                .Call();
         }
 
 
