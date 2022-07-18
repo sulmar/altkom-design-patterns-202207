@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PrototypePattern
 {
-    public class Invoice
+    public class Invoice : ICloneable
     {
         public Invoice(string number, DateTime createDate, PaymentType paymentType, Customer customer)
         {
@@ -26,6 +26,23 @@ namespace PrototypePattern
         public override string ToString()
         {
             return $"Invoice No {Number} {TotalAmount:C2} {Customer.FullName} payment method {PaymentType}";
+        }
+
+        private Invoice CreateCopy()
+        {
+            Invoice invoiceCopy = new Invoice(this.Number, DateTime.Today, this.PaymentType, this.Customer);
+
+            foreach (InvoiceDetail detail in this.Details)
+            {
+                invoiceCopy.Details.Add((InvoiceDetail) detail.Clone());
+            }
+
+            return invoiceCopy;
+        }
+
+        public object Clone()
+        {
+            return CreateCopy();
         }
     }
 

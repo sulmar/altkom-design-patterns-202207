@@ -6,7 +6,9 @@ namespace PrototypePattern
     {
         public Invoice CreateCopy(Invoice invoice, string newNumber)
         {
-            Invoice invoiceCopy = new Invoice(invoice.Number, DateTime.Today, invoice.PaymentType, invoice.Customer);
+            Invoice invoiceCopy = (Invoice)invoice.Clone();
+
+            invoiceCopy.Number = newNumber;
            
             return invoiceCopy;
         }
