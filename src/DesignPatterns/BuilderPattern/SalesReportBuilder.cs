@@ -46,7 +46,7 @@ namespace BuilderPattern
         {
             salesReport.Title = title;
             salesReport.CreateDate = DateTime.Now;
-            // salesReport.TotalSalesAmount = orders.Sum(s => s.Amount);
+            salesReport.TotalSalesAmount = orders.Sum(s => s.Amount);
 
             return this;
         }

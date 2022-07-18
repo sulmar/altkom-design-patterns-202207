@@ -13,6 +13,9 @@ namespace BuilderPattern
         public IEnumerable<ProductReportDetail> ProductDetails { get; set; }
         public IEnumerable<GenderReportDetail> GenderDetails { get; set; }
 
+        public SalesReport()
+        {
+        }
 
         public override string ToString()
         {
