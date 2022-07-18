@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,16 +18,5 @@ namespace AbstractFactoryPattern
                 default: return string.Empty;
             }
         }
-    }
-
-    public class PaymentTypeFactory
-    {
-        public static PaymentType Create(string input) => input switch
-        {
-            "G" => PaymentType.Cash,
-            "K" => PaymentType.CreditCard,
-            "P" => PaymentType.BankTransfer,
-            _ => throw new NotSupportedException(),
-        };
     }
 }
