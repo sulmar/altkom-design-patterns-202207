@@ -66,14 +66,16 @@ namespace AdapterPattern
 
         private static void MotorolaRadioTest()
         {
+            Message message = new Message { Content = "Hello World!" };
             IRadioAdapter radio = new MotorolaRadioAdapter("1234");
-            radio.Send("Hello World!", 10);
+            radio.Send(message, 10);
         }
 
         private static void HyteriaRadioTest()
         {
+            Message message = new Message { Content = "Hello World!" };
             IRadioAdapter radio = new HyteraRadioAdapter();
-            radio.Send("Hello World!", 10);            
+            radio.Send(message, 10);            
         }
     }
 

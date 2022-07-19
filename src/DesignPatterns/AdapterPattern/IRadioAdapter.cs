@@ -9,7 +9,15 @@ namespace AdapterPattern
     // Abstract adapter
     public interface IRadioAdapter
     {
-        void Send(string message, byte channel);        
+        void Send(Message message, byte channel);        
+    }
+
+    public class Message
+    {
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public byte Priority { get; set; }
+
     }
 
     public class MotorolaRadioClassAdapter : MotorolaRadio, IRadioAdapter
@@ -21,21 +29,21 @@ namespace AdapterPattern
             this.pincode = pincode;
         }
 
-        public void Send(string message, byte channel)
+        public void Send(Message message, byte channel)
         {
             PowerOn(pincode);
             SelectChannel(channel);
-            Send(message);
+            Send(message.Content);
             PowerOff();
         }
     }
 
     public class HyteraRadioClassAdapter : HyteraRadio, IRadioAdapter
     {
-        public void Send(string message, byte channel)
+        public void Send(Message message, byte channel)
         {   
             Init();
-            SendMessage(channel, message);
+            SendMessage(channel, message.Content);
             Release();
         }
     }
@@ -55,11 +63,11 @@ namespace AdapterPattern
             radio = new MotorolaRadio();            
         }
 
-        public void Send(string message, byte channel)
+        public void Send(Message message, byte channel)
         {
             radio.PowerOn(pincode);
             radio.SelectChannel(channel);
-            radio.Send(message);
+            radio.Send(message.Content);
             radio.PowerOff();
         }
     }
@@ -74,10 +82,10 @@ namespace AdapterPattern
             radio = new HyteraRadio();
         }
 
-        public void Send(string message, byte channel)
+        public void Send(Message message, byte channel)
         {
             radio.Init();
-            radio.SendMessage(channel, message);
+            radio.SendMessage(channel, message.Content);
             radio.Release();
         }
     }
