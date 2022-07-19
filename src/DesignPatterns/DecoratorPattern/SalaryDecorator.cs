@@ -53,7 +53,7 @@ namespace DecoratorPattern
         }
 
         public override decimal GetSalary()
-        {
+        {            
             return base.GetSalary() + bonusPerProject * employee.NumberOfProjects;
         }
     }
