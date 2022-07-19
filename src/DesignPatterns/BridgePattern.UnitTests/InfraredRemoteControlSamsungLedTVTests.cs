@@ -9,13 +9,14 @@ namespace BridgePattern.UnitTests
         public void SwitchOn_ShouldOnTrue()
         {
             // Arrange
-            InfraredRemoteControlSamsungLedTV ledTV = new InfraredRemoteControlSamsungLedTV();
+            ILedTv ledTv = new SamsungLedTv();
+            AbstractRemoteControl remoteControl = new InfraredRemoteControl(ledTv);
 
             // Act
-            ledTV.SwitchOn();
+            remoteControl.SwitchOn();
 
             //
-            Assert.IsTrue(ledTV.On);
+            Assert.IsTrue(ledTv.On);
         }
 
         [TestMethod]
