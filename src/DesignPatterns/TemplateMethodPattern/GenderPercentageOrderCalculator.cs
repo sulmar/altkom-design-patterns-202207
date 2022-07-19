@@ -1,4 +1,6 @@
-﻿namespace TemplateMethodPattern
+﻿using System;
+
+namespace TemplateMethodPattern
 {
     // Gender - 20% upustu dla kobiet
     public class GenderPercentageOrderCalculator : TemplateOrderCalculator
@@ -42,7 +44,46 @@
         }
     }
 
-   
+    //public class GenderDelegateTemplateOrderCalculator : DelegateTemplateOrderCalculator
+    //{
+    //    private readonly decimal percentage;
+
+    //    public GenderDelegateTemplateOrderCalculator(decimal percentage) : base(
+    //            order => order.Customer.Gender == Gender.Female,
+    //            order => order.Amount * percentage
+    //    )
+    //    {
+    //    }
+    //}
+
+    public class DelegateTemplateOrderCalculator
+    {
+        private readonly Predicate<Order> canDiscount;
+        private readonly Func<Order, decimal> discount;
+
+        public DelegateTemplateOrderCalculator(Predicate<Order> CanDiscount, Func<Order, decimal> Discount)
+        {
+            canDiscount = CanDiscount;
+            discount = Discount;
+        }
+
+        public virtual decimal NoDiscount()
+        {
+            return decimal.Zero;
+        }
+
+        public decimal CalculateDiscount(Order order)
+        {
+            if (canDiscount(order))            // warunek (predykat)
+            {
+                return discount(order);        // obliczenie upustu
+            }
+            else
+                return NoDiscount();                // brak upustu
+        }
+    }
+
+
 
 
 }
