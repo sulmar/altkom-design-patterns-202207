@@ -3,6 +3,23 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ProxyPattern.UnitTests
 {
     [TestClass]
+    public class InvoiceProxyTests
+    {
+        [TestMethod]
+        public void Get_Customer_ShouldReturnsCustomer()
+        {
+            // Arrange
+            Invoice invoice = new InvoiceProxy();
+
+            // Act
+            var result = invoice.Customer;
+
+
+        }
+    }
+
+
+    [TestClass]
     public class ProductsControllerTests
     {
         private ProductsController productsController;
@@ -10,9 +27,7 @@ namespace ProxyPattern.UnitTests
         [TestInitialize]
         public void Init()
         {
-            productsController = new ProductsController(
-                   new DbProductRepository(),
-               new CacheProductRepository());
+            productsController = new ProductsController(new CacheProductRepository( new DbProductRepository()));
         }
 
         [TestMethod]

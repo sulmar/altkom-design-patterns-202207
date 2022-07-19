@@ -5,13 +5,21 @@ using System.Linq;
 
 namespace ProxyPattern
 {
-    public class CacheProductRepository
+    // REDIS - NoSql
+
+    // Proxy
+    public class CacheProductRepository : IProductRepository
     {
         private IDictionary<int, Product> products;
 
-        public CacheProductRepository()
+        // Real subject
+        private readonly IProductRepository productRepository;
+
+        public CacheProductRepository(IProductRepository productRepository)
         {
             products = new Dictionary<int, Product>();
+
+            this.productRepository = productRepository;
         }
 
         public void Add(Product product)
@@ -24,11 +32,18 @@ namespace ProxyPattern
             if (products.TryGetValue(id, out Product product))
             {
                 product.CacheHit++;
-
-                return product;
             }
             else
-                return null;            
+            {
+                product = productRepository.Get(id);
+
+                if (product != null)
+                {
+                    Add(product);
+                }
+            }
+
+            return product;
         }
 
     }

@@ -5,7 +5,8 @@ using System.Linq;
 
 namespace ProxyPattern
 {
-    public class DbProductRepository
+    // Real Subject
+    public class DbProductRepository : IProductRepository
     {
         private readonly IDictionary<int, Product> products;
 
@@ -17,6 +18,11 @@ namespace ProxyPattern
                 { 2, new Product(2, "Product 2", 20) },
                 { 3, new Product(3, "Product 3", 30) },
             };
+        }
+
+        public void Add(Product product)
+        {
+            products.Add(product.Id, product);
         }
 
         public Product Get(int id)
