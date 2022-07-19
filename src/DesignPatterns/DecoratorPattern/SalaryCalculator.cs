@@ -24,21 +24,23 @@ namespace DecoratorPattern
         public decimal CalculateSalary(Employee employee)
         {
             // pensja zasadnicza
-            decimal salary = employee.GetSalary();
+            var salary = new JuniorSalary();
+
+            var amount = salary.GetSalary();
 
             // premia za nadgodziny (overtime)
-            salary += (decimal) employee.OvertimeSalary.TotalHours * amountPerHour;
+            amount += (decimal) employee.OvertimeSalary.TotalHours * amountPerHour;
 
             // premia za oddanie każdego projektu
             for (int i = 0; i < employee.NumberOfProjects; i++)
             {
-                salary += bonusPerProject;
+                amount += bonusPerProject;
             }
 
             // premia za udział w szkoleniu
             // etc. ...
 
-            return salary;           
+            return amount;           
            
         }
     }
