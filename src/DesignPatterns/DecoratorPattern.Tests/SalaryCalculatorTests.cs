@@ -11,12 +11,15 @@ namespace DecoratorPattern.UnitTests
         public void CalculateSalary_Junior_ShouldCalculateBonus()
         {
             // Arrange
-            SalaryCalculator salaryCalculator = new SalaryCalculator(50, 1000);
+            // SalaryCalculator salaryCalculator = new SalaryCalculator(50, 1000);
 
             Employee employee = new JuniorDeveloper { OvertimeSalary = TimeSpan.FromHours(2), NumberOfProjects = 1};
 
+            Employee decoratedEmployee = new ProjectSalaryDecorator(
+                                            new OvertimeSalaryDecorator(employee, 50), 1000);
+
             // Act
-            decimal salary = salaryCalculator.CalculateSalary(employee);
+            decimal salary = decoratedEmployee.GetSalary();
 
             // Assert
             Assert.AreEqual(2100, salary);

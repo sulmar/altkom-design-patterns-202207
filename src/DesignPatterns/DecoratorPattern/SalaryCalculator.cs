@@ -26,7 +26,7 @@ namespace DecoratorPattern
             // pensja zasadnicza
             decimal salary = employee.GetSalary();
 
-            // premia za nadgodziny
+            // premia za nadgodziny (overtime)
             salary += (decimal) employee.OvertimeSalary.TotalHours * amountPerHour;
 
             // premia za oddanie każdego projektu
