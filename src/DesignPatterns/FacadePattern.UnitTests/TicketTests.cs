@@ -24,17 +24,10 @@ namespace FacadePattern.UnitTests
             PaymentService paymentService = new PaymentService();
             EmailService emailService = new EmailService();
 
-            // Act
-            RailwayConnection railwayConnection = railwayConnectionRepository.Find(from, to, when);
-            decimal price = ticketCalculator.Calculate(railwayConnection, numberOfPlaces);
-            Reservation reservation = reservationService.MakeReservation(railwayConnection, numberOfPlaces);
-            Ticket ticket = new Ticket { RailwayConnection = reservation.RailwayConnection, NumberOfPlaces = reservation.NumberOfPlaces, Price = price };
-            Payment payment = paymentService.CreateActivePayment(ticket);
+            PkpIntercityTicketService ticketService = new PkpIntercityTicketService(railwayConnectionRepository, ticketCalculator, reservationService, paymentService, emailService);
 
-            if (payment.IsPaid)
-            {
-                emailService.Send(ticket);
-            }
+            // Act
+            Ticket ticket = ticketService.BuyTicket(from, to, when, numberOfPlaces);
 
             // Assert
             Assert.AreEqual("Bydgoszcz", ticket.RailwayConnection.From);
@@ -58,15 +51,36 @@ namespace FacadePattern.UnitTests
             PaymentService paymentService = new PaymentService();
             EmailService emailService = new EmailService();
 
-            RailwayConnection railwayConnection = railwayConnectionRepository.Find(from, to, when);
-            decimal price = ticketCalculator.Calculate(railwayConnection, numberOfPlaces);
-            Reservation reservation = reservationService.MakeReservation(railwayConnection, numberOfPlaces);
-            Ticket ticket = new Ticket { RailwayConnection = reservation.RailwayConnection, NumberOfPlaces = reservation.NumberOfPlaces, Price = price };
-            Payment payment = paymentService.CreateActivePayment(ticket);
+            PkpIntercityTicketService ticketService = new PkpIntercityTicketService(railwayConnectionRepository, ticketCalculator, reservationService, paymentService, emailService);
+            Ticket ticket = ticketService.BuyTicket(from, to, when, numberOfPlaces);
 
             // Act
-            reservationService.CancelReservation(ticket.RailwayConnection, ticket.NumberOfPlaces);
-            paymentService.RefundPayment(payment);
+            ticketService.CancelTicket(ticket);
+
+
+
+        }
+
+        [TestMethod]
+        public void MoveTicket()
+        {
+            // Arrange
+            string from = "Bydgoszcz";
+            string to = "Warszawa";
+            DateTime when = DateTime.Parse("2022-07-15");
+            byte numberOfPlaces = 3;
+
+            RailwayConnectionRepository railwayConnectionRepository = new RailwayConnectionRepository();
+            TicketCalculator ticketCalculator = new TicketCalculator();
+            ReservationService reservationService = new ReservationService();
+            PaymentService paymentService = new PaymentService();
+            EmailService emailService = new EmailService();
+
+            ITicketService ticketService = new PkpIntercityTicketService(railwayConnectionRepository, ticketCalculator, reservationService, paymentService, emailService);
+            Ticket ticket = ticketService.BuyTicket(from, to, when, numberOfPlaces);
+
+            // Act
+            ticketService.MoveTicket(ticket, DateTime.Parse("2022-07-16"));
 
 
 

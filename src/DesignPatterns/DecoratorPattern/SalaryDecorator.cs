@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace DecoratorPattern
 {
     // Abstract decorator
-    public abstract class SalaryDecorator : Employee
+    public abstract class SalaryEmployeeDecorator : Employee
     {
         protected Employee employee;
 
-        public SalaryDecorator(Employee employee)
+        public SalaryEmployeeDecorator(Employee employee)
         {
             if (employee == null)
                 throw new ArgumentNullException(nameof(employee));
@@ -27,11 +27,11 @@ namespace DecoratorPattern
     }
 
     // Concrete decorator
-    public class OvertimeSalaryDecorator : SalaryDecorator
+    public class OvertimeSalaryEmployeeDecorator : SalaryEmployeeDecorator
     {
         private readonly decimal amountPerHour;
 
-        public OvertimeSalaryDecorator(Employee employee, decimal amountPerHour) : base(employee)
+        public OvertimeSalaryEmployeeDecorator(Employee employee, decimal amountPerHour) : base(employee)
         {
             this.amountPerHour = amountPerHour;
         }
@@ -43,11 +43,11 @@ namespace DecoratorPattern
     }
 
     // Concrete decorator
-    public class ProjectSalaryDecorator : SalaryDecorator
+    public class ProjectSalaryEmployeeDecorator : SalaryEmployeeDecorator
     {
         private readonly decimal bonusPerProject;
 
-        public ProjectSalaryDecorator(Employee employee, decimal bonusPerProject) : base(employee)
+        public ProjectSalaryEmployeeDecorator(Employee employee, decimal bonusPerProject) : base(employee)
         {
             this.bonusPerProject = bonusPerProject;
         }

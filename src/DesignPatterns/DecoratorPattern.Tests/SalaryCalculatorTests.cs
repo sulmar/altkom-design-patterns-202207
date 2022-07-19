@@ -15,8 +15,8 @@ namespace DecoratorPattern.UnitTests
 
            // Employee employee = new JuniorDeveloper { OvertimeSalary = TimeSpan.FromHours(2), NumberOfProjects = 1};
 
-            Employee decoratedEmployee = new ProjectSalaryDecorator(
-                                            new OvertimeSalaryDecorator(new JuniorDeveloper { OvertimeSalary = TimeSpan.FromHours(2), NumberOfProjects = 1 }, 50), 1000);
+            Employee decoratedEmployee = new ProjectSalaryEmployeeDecorator(
+                                            new OvertimeSalaryEmployeeDecorator(new JuniorDeveloper { OvertimeSalary = TimeSpan.FromHours(2), NumberOfProjects = 1 }, 50), 1000);
 
             // Act
             decimal salary = decoratedEmployee.GetSalary();
