@@ -34,6 +34,17 @@ namespace CommandPattern.Models
         }
     }
 
+    public class OverlimitException : ApplicationException
+    {
+        public decimal Limit { get; set; }
+
+        public OverlimitException(decimal limit, string message)
+            : base(message)
+        {
+            Limit = limit;
+        }
+    }
+
     public class WithdrawCommand : ICommand
     {
         private BankAccount bankAccount;
@@ -58,7 +69,7 @@ namespace CommandPattern.Models
             }
             else
             {
-                throw new ApplicationException();
+                throw new OverlimitException(BankAccount.OverdraftLimit, "Przekroczono limit");
             }
         }
     }

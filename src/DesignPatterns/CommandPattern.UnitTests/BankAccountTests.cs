@@ -28,9 +28,16 @@ namespace CommandPattern.UnitTests
             {
                 CommandPattern.Models.ICommand command = commands.Dequeue();
 
-                if (command.CanExecute())
+                try
                 {
-                    command.Execute();
+                    if (command.CanExecute())
+                    {
+                        command.Execute();
+                    }
+                }
+                catch
+                {
+                    
                 }
             }
 
