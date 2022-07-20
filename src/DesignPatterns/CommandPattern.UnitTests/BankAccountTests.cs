@@ -1,6 +1,7 @@
 using CommandPattern.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 
 namespace CommandPattern.UnitTests
 {
@@ -14,13 +15,26 @@ namespace CommandPattern.UnitTests
             BankAccount bankAccount = new BankAccount();
 
             // Act
-            bankAccount.Deposit(100);
-            bankAccount.Withdraw(100);
-            bankAccount.Deposit(200);
-            bankAccount.Deposit(100);
-            bankAccount.Withdraw(50);
 
-            var result = bankAccount.GetBalance();
+            Queue<CommandPattern.Models.ICommand> commands = new Queue<CommandPattern.Models.ICommand>();
+
+            commands.Enqueue(new DepositCommand(bankAccount, 100));
+            commands.Enqueue(new WithdrawCommand(bankAccount, 100));
+            commands.Enqueue(new DepositCommand(bankAccount, 200));
+            commands.Enqueue(new DepositCommand(bankAccount, 100));
+            commands.Enqueue(new WithdrawCommand(bankAccount, 50));
+
+            while(commands.Count > 0 )
+            {
+                CommandPattern.Models.ICommand command = commands.Dequeue();
+
+                if (command.CanExecute())
+                {
+                    command.Execute();
+                }
+            }
+
+            var result = bankAccount.Balance;
 
             // Assert
             Assert.AreEqual(250, result);
@@ -32,10 +46,12 @@ namespace CommandPattern.UnitTests
             // Arrange
             BankAccount bankAccount = new BankAccount();
 
-            bankAccount.Deposit(100);
+            CommandPattern.Models.ICommand depositCommand = new DepositCommand(bankAccount, 100);
+
+            CommandPattern.Models.ICommand withdrawCommand = new WithdrawCommand(bankAccount, 1000);
 
             // Act
-            Action act = () => bankAccount.Withdraw(1000);
+            Action act = () => withdrawCommand.Execute();
 
             // Assert
             Assert.ThrowsException<ApplicationException>(act);

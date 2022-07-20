@@ -6,34 +6,66 @@ using System.Threading.Tasks;
 
 namespace CommandPattern.Models
 {
-    public class BankAccount
+    public interface ICommand
     {
-        private decimal balance;
+        void Execute();
+        bool CanExecute();
+    }
 
-        private const decimal overdraftLimit = -500;
+    public class DepositCommand : ICommand
+    {
+        private BankAccount bankAccount;
+        private readonly decimal amount;
 
-        public decimal GetBalance()
+        public DepositCommand(BankAccount bankAccount, decimal amount)
         {
-            return balance;
+            this.bankAccount = bankAccount;
+            this.amount = amount;
         }
 
-        public void Deposit(decimal amount)
+        public bool CanExecute()
         {
-            balance += amount;
+            return true;
         }
 
-        public void Withdraw(decimal amount)
+        public void Execute()
         {
-            if (balance - amount >= overdraftLimit)
+            bankAccount.Balance += amount;
+        }
+    }
+
+    public class WithdrawCommand : ICommand
+    {
+        private BankAccount bankAccount;
+        private readonly decimal amount;
+
+        public WithdrawCommand(BankAccount bankAccount, decimal amount)
+        {
+            this.bankAccount = bankAccount;
+            this.amount = amount;
+        }
+
+        public bool CanExecute()
+        {
+            return bankAccount.Balance - amount >= BankAccount.OverdraftLimit;
+        }
+
+        public void Execute()
+        {
+            if (CanExecute())
             {
-                balance -= amount;
+                bankAccount.Balance -= amount;
             }
             else
             {
                 throw new ApplicationException();
             }
         }
+    }
 
-
+    public class BankAccount
+    {
+        public const decimal OverdraftLimit = -500;
+        public decimal Balance { get; set; }
     }
 }
