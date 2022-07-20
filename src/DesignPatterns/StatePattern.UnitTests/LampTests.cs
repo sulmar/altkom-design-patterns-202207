@@ -8,7 +8,7 @@ namespace StatePattern.UnitTests
     public class LampTests
     {
         [TestMethod]
-        public void PushDown_Init_ShouldIsOff()
+        public void PushDown_Init_ShouldVolumeIs0()
         {
             // Arrange
 
@@ -16,7 +16,7 @@ namespace StatePattern.UnitTests
             Lamp lamp = new Lamp();
 
             // Assert
-            Assert.IsFalse(lamp.IsOn);
+            Assert.AreEqual(0, lamp.Volume);
 
         }
 
@@ -30,7 +30,7 @@ namespace StatePattern.UnitTests
             lamp.PushDown();
 
             // Assert
-            Assert.IsTrue(lamp.IsOn);
+            Assert.AreEqual(50, lamp.Volume);
         }
 
         [TestMethod]
@@ -44,12 +44,12 @@ namespace StatePattern.UnitTests
             lamp.PushUp();
 
             // Assert
-            Assert.IsFalse(lamp.IsOn);
+            Assert.AreEqual(0, lamp.Volume);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void PushDown_Twice_ShouldThrowException()
+      //  [ExpectedException(typeof(InvalidOperationException))]
+        public void PushDown_Twice_ShouldVolumeIs100()
         {
             // Arrange
             Lamp lamp = new Lamp();
@@ -59,6 +59,7 @@ namespace StatePattern.UnitTests
             lamp.PushDown();
 
             // Assert
+            Assert.AreEqual(100, lamp.Volume);
         }
 
         [TestMethod]

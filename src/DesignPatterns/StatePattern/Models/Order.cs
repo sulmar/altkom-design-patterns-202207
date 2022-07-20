@@ -49,7 +49,8 @@ namespace StatePattern
         Completion,
         Sent,
         Canceled,
-        Done
+        Done,
+        Refunded
     }
 
 }
