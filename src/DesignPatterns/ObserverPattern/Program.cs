@@ -1,21 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reactive.Linq;
 using System.Threading;
 
 namespace ObserverPattern
 {
-    class Program
+    partial class Program
     {
         static void Main(string[] args)
         {
             Console.WriteLine("Hello Observer Pattern!");
 
-            // Covid19Test();
 
-            //   CpuTest();
+            ObserverCpuTest();
 
-            WheaterForecastTest();
+            // CpuTest();
+
+            // ObservatorCovid19Test();
+
+
+
+            //  Covid19Test();
+
+
+
+            // WheaterForecastTest();
+
+            // IDisposableTest();
+
+        }
+
+        private static void IDisposableTest()
+        {
+            try
+            {
+                using (Printer printer = new Printer())
+                {
+                    printer.Print("Hello World!");
+                } // -> printer.Dispose()
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private static void WheaterForecastTest()
@@ -31,6 +59,19 @@ namespace ObserverPattern
         }
 
         #region COVID
+
+        private static void ObservatorCovid19Test()
+        {
+            ObservationSource source = new ObservationSource();
+
+            IObserver<Observation> observer = new ConsoleObserver("Marcin");
+
+            source.Subscribe(observer);
+
+
+
+        }
+
         private static void Covid19Test()
         {
             IObservationService observationService = new FakeObservationService();
@@ -58,6 +99,51 @@ namespace ObserverPattern
         }
 
 
+       
+
+        public class ObservationSource : IObservable<Observation>
+        {
+            IObservationService observationService = new FakeObservationService();
+
+            public IDisposable Subscribe(IObserver<Observation> observer)
+            {
+                var observations = observationService.Get();
+
+                foreach (var observation in observations)
+                {
+                    observer.OnNext(observation);
+                }
+
+                observer.OnCompleted();
+
+                return null;
+            }
+        }
+
+        public class ConsoleObserver : IObserver<Observation>
+        {
+            private string name;
+
+            public ConsoleObserver(string name)
+            {
+                this.name = name;
+            }
+
+            public void OnCompleted()
+            {
+                Console.WriteLine("End");
+            }
+
+            public void OnError(Exception error)
+            {
+                Console.WriteLine(error);
+            }
+
+            public void OnNext(Observation value)
+            {
+                Console.WriteLine($"[{name}] {value.Country} {value.Confirmed}");
+            }
+        }
 
         public class Observation
         {
@@ -99,6 +185,31 @@ namespace ObserverPattern
         #endregion
 
         #region CPU
+
+        private static void ObserverCpuTest()
+        {
+
+            var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+
+            IObservable<float> source = Observable.Interval(TimeSpan.FromSeconds(1))
+                .Select(p => cpuCounter.NextValue());
+           
+            source                
+                .Subscribe(new CpuConsoleObserver());
+
+            source
+               .Where(cpu => cpu > 20)
+               .Subscribe(new CpuAlertConsoleObserver(ConsoleColor.Red));
+
+            source
+               .Where(cpu => cpu < 5)
+               .Subscribe(new CpuAlertConsoleObserver(ConsoleColor.Green));
+
+            Console.ReadKey();
+
+
+        }
+
         private static void CpuTest()
         {
             var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
@@ -107,14 +218,14 @@ namespace ObserverPattern
             {
                 float cpu = cpuCounter.NextValue();
 
-                if (cpu < 30)
+                if (cpu < 10)
                 {
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.WriteLine($"CPU {cpu} %");
                     Console.ResetColor();
                 }
                 else
-                if (cpu > 50)
+                if (cpu > 20)
                 {
                     Console.BackgroundColor = ConsoleColor.Red;
                     Console.WriteLine($"CPU {cpu} %");
@@ -133,6 +244,7 @@ namespace ObserverPattern
 
         #region WheaterForecast
 
+       
         public class WheaterForecast
         {
             private Random random = new Random();
@@ -171,7 +283,7 @@ namespace ObserverPattern
 
             private void DisplayForecast(int temperature, int preasure, double humidity)
             {
-                System.Console.WriteLine($"Statistics Wheather: {temperature}C {preasure}hPa {humidity:P2}");
+                System.Console.WriteLine($"Forecast Wheather: {temperature}C {preasure}hPa {humidity:P2}");
             }
 
             private void DisplayStatistics(int temperature, int preasure, double humidity)
