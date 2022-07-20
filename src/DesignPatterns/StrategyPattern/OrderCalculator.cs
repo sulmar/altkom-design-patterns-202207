@@ -8,18 +8,20 @@ namespace StrategyPattern
 {
     public class OrderCalculator
     {
-        private readonly IOrderDiscountStrategy orderDiscountStrategy;
+        private readonly ICanDiscountStrategy canDiscountStrategy;
+        private readonly ICalculateDiscountStrategy calculateDiscountStrategy;
 
-        public OrderCalculator(IOrderDiscountStrategy orderDiscountStrategy)
+        public OrderCalculator(ICanDiscountStrategy canDiscountStrategy, ICalculateDiscountStrategy calculateDiscountStrategy)
         {
-            this.orderDiscountStrategy = orderDiscountStrategy;
+            this.canDiscountStrategy = canDiscountStrategy;
+            this.calculateDiscountStrategy = calculateDiscountStrategy;
         }
 
         public decimal CalculateDiscount(Order order)
         {
-            if (orderDiscountStrategy.CanDiscount(order))
+            if (canDiscountStrategy.CanDiscount(order))
             {
-                return orderDiscountStrategy.CalculateDiscount(order);
+                return calculateDiscountStrategy.CalculateDiscount(order);
             }
             else
                 return decimal.Zero;
@@ -50,6 +52,65 @@ namespace StrategyPattern
         decimal CalculateDiscount(Order order);
     }
 
+    public interface ICanDiscountStrategy
+    {
+        bool CanDiscount(Order order);
+    }
+
+    public interface ICalculateDiscountStrategy
+    {
+        decimal CalculateDiscount(Order order);
+    }
+
+    public class GenderCanDiscountStrategy : ICanDiscountStrategy
+    {
+        private readonly Gender gender;
+
+        public GenderCanDiscountStrategy(Gender gender)
+        {
+            this.gender = gender;
+        }
+
+        public bool CanDiscount(Order order)
+        {
+            return order.Customer.Gender == gender;
+        }
+    }
+
+    public class HappyHoursDiscountStrategy : ICanDiscountStrategy
+    {
+        private readonly TimeSpan from;
+        private readonly TimeSpan to;
+
+        public HappyHoursDiscountStrategy(TimeSpan from, TimeSpan to)
+        {
+            this.from = from;
+            this.to = to;
+        }
+
+        public bool CanDiscount(Order order)
+        {
+            return order.OrderDate.TimeOfDay >= from && order.OrderDate.TimeOfDay <= to;
+        }
+    }
+
+    public class PercentageCalculateDiscountStrategy : ICalculateDiscountStrategy
+    {
+        private readonly decimal percentage;
+
+        public PercentageCalculateDiscountStrategy(decimal percentage) => this.percentage = percentage;
+        public decimal CalculateDiscount(Order order) => order.Amount * percentage;
+    }
+
+    public class FixedCalculateDiscountStrategy : ICalculateDiscountStrategy
+    {
+        private readonly decimal amount;
+
+        public FixedCalculateDiscountStrategy(decimal amount) => this.amount = amount;
+        public decimal CalculateDiscount(Order order) => amount;
+    }
+
+    // DRY (Don't Repeate Yourself)
 
     // Concrete strategy
     public class PercentageGenderOrderDiscountStrategy : IOrderDiscountStrategy

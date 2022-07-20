@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace StrategyPattern.UnitTests
 {
+
     [TestClass]
     public class HappyHoursPercentageOrderCalculatorTests
     {

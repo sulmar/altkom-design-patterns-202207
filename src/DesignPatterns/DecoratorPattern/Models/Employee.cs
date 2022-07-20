@@ -26,7 +26,8 @@ namespace DecoratorPattern
     {
         public override decimal GetSalary() => 2000m;
     }
-
+    
+    // Abstract decorator
     public abstract class SalaryDecorator : Salary
     {
         private readonly Salary salary;
@@ -42,6 +43,8 @@ namespace DecoratorPattern
         }
     }
 
+
+    // Concrete decorator
     public class OvertimeSalaryDecorator : SalaryDecorator
     {
         private readonly decimal amountPerHour;
