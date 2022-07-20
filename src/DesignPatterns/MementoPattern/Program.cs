@@ -12,16 +12,31 @@ namespace MementoPattern
 
             ArticleTest();
 
-            AgreementTest();
+           // AgreementTest();
         }
 
         private static void ArticleTest()
         {
-            var article = new Article();
+            IIndexArticleCaretaker articleCaretaker = new IndexArticleCaretaker();
+
+            var article = new Article();            
             article.Content = "a";
+            articleCaretaker.SetState(article.CreateMemento());
+
             article.Content = "b";
+            articleCaretaker.SetState(article.CreateMemento());
+
             article.Content = "c";
-            
+
+            article.SetMemento(articleCaretaker.GetState(0));
+
+            //article.SetMemento(articleCaretaker.GetState());
+
+            //article.SetMemento(articleCaretaker.GetState());
+
+            //article.SetMemento(articleCaretaker.GetState());
+
+            // TODO: Undo
             // TODO: Undo
         }
 
