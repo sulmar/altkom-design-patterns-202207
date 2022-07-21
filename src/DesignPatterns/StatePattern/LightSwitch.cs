@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,7 +79,13 @@ namespace StatePattern.Solution
             State = new Off();
         }
 
-        public void SetState(LightSwitchState state) => this.State = state;
+        // Transition
+        public void SetState(LightSwitchState state)
+        {
+            Trace.WriteLine($"Context: Transition {this.State.GetType().Name} -> {state.GetType().Name}.");
+
+            this.State = state;
+        }
 
         // Request
         public void Push() => State.Push(this);
