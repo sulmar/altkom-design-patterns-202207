@@ -81,9 +81,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BridgePattern", "BridgePatt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BridgePattern.UnitTests", "BridgePattern.UnitTests\BridgePattern.UnitTests.csproj", "{88E5D701-356C-471F-8A3B-54112C224CE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryPattern.UnitTests", "FactoryPattern.UnitTests\FactoryPattern.UnitTests.csproj", "{3226CA3A-7A16-4C63-AB30-5F2BC797756F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryPattern.UnitTests", "FactoryPattern.UnitTests\FactoryPattern.UnitTests.csproj", "{3226CA3A-7A16-4C63-AB30-5F2BC797756F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuilderPattern.UnitTests", "BuilderPattern.UnitTests\BuilderPattern.UnitTests.csproj", "{A73DDB51-6649-43D6-93CC-AE243B32ACD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuilderPattern.UnitTests", "BuilderPattern.UnitTests\BuilderPattern.UnitTests.csproj", "{A73DDB51-6649-43D6-93CC-AE243B32ACD7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitorPattern.UnitTests", "VisitorPattern.UnitTests\VisitorPattern.UnitTests.csproj", "{92AE7D04-D622-4094-AA2D-95E752E4EB8C}"
 EndProject
