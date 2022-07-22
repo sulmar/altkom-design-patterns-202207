@@ -71,7 +71,7 @@ namespace ChainOfResponsibilityPattern.Models
         {
             if (purchase.Amount < 10000)
             {
-                Console.WriteLine("Director approved request");
+                Console.WriteLine("CEO approved request");
                 purchase.ApprovedBy = this;
             }
             else if (successor != null)
