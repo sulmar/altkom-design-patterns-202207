@@ -87,6 +87,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuilderPattern.UnitTests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitorPattern.UnitTests", "VisitorPattern.UnitTests\VisitorPattern.UnitTests.csproj", "{92AE7D04-D622-4094-AA2D-95E752E4EB8C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChainOfResponsibilityPattern.UnitTests", "ChainOfResponsibilityPattern.UnitTests\ChainOfResponsibilityPattern.UnitTests.csproj", "{7948AAE8-2EC2-4B47-9419-13C6D39867A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -249,6 +251,10 @@ Global
 		{92AE7D04-D622-4094-AA2D-95E752E4EB8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92AE7D04-D622-4094-AA2D-95E752E4EB8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92AE7D04-D622-4094-AA2D-95E752E4EB8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7948AAE8-2EC2-4B47-9419-13C6D39867A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7948AAE8-2EC2-4B47-9419-13C6D39867A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7948AAE8-2EC2-4B47-9419-13C6D39867A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7948AAE8-2EC2-4B47-9419-13C6D39867A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -293,6 +299,7 @@ Global
 		{3226CA3A-7A16-4C63-AB30-5F2BC797756F} = {F2386B77-C42E-43C8-8A89-C1DA19D3DFCA}
 		{A73DDB51-6649-43D6-93CC-AE243B32ACD7} = {F2386B77-C42E-43C8-8A89-C1DA19D3DFCA}
 		{92AE7D04-D622-4094-AA2D-95E752E4EB8C} = {AE8F46A4-887F-4B91-99AD-A883344408B6}
+		{7948AAE8-2EC2-4B47-9419-13C6D39867A8} = {AE8F46A4-887F-4B91-99AD-A883344408B6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AC97C506-DE41-412B-BB0D-1ECD765DD65D}
